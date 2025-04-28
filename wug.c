@@ -4,10 +4,7 @@
 const int SUPERWUG_GENOME[16] = {1, 1, 1, 1, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0};
 
 // Zone indices for each characteristic
-// Intelligence: positions 0, 2, 7, 13
-// Beauty: positions 1, 2, 3, 12
-// Strength: positions 8, 9, 10, 11
-// Speed: positions 4, 6, 14, 15
+// Intelligence: Beauty: Strength: Speed:
 const int INTELLIGENCE_ZONE[4] = {0, 2, 7, 13};
 const int BEAUTY_ZONE[4] = {1, 2, 3, 12};
 const int STRENGTH_ZONE[4] = {8, 9, 10, 11};
@@ -106,7 +103,7 @@ int report_population(const wug_t population[], const int size) {
     }
     
     // Print the population summary
-    printf("Population Summary:\n");
+    printf("Resumo da Populacao:\n");
     for (int i = 0; i < 16; i++) {
         if (counts[i][0] > 0 || counts[i][1] > 0) {
             int features[4];

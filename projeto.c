@@ -6,19 +6,17 @@
 
 // Structure to track a state in our optimization search
 typedef struct state {
-    wug_t population[64];  // Population of wugs
-    int size;              // Current population size
-    int operations;        // Number of operations performed to reach this state
-    char *history;         // History of operations (P for proliferate, B for breed)
+    wug_t population[64];  
+    int size;              
+    int operations;
+    char *history;          
 } state_t;
 
-// Print the results of our optimization
 void print_results(state_t *state, int superwug_count) {
-    printf("Found %d superwugs after %d operations\n", superwug_count, state->operations);
-    printf("Operation sequence: %s\n", state->history);
+    printf("Encontrados %d superwugs após %d operações\n", superwug_count, state->operations);
+    printf("Sequência de operações: %s\n", state->history);
 }
 
-// Run the simulation with a specific breeding/proliferation sequence
 int run_simulation(const char *sequence, int target_superwugs, bool print_output) {
     wug_t population[64];
     int size = 0;
@@ -34,7 +32,7 @@ int run_simulation(const char *sequence, int target_superwugs, bool print_output
     insert_ranked(population, male_wug, &size, capacity);
     
     if (print_output) {
-        printf("Initial population:\n");
+        printf("Populacao inicial:\n");
         print_population(population, size);
     }
     
@@ -42,10 +40,10 @@ int run_simulation(const char *sequence, int target_superwugs, bool print_output
     int superwug_count = 0;
     for (int i = 0; sequence[i] != '\0'; i++) {
         if (sequence[i] == 'P') {
-            if (print_output) printf("Proliferating...\n");
+            if (print_output) printf("Proliferando...\n");
             proliferate(population, &size, capacity);
         } else if (sequence[i] == 'B') {
-            if (print_output) printf("Breeding...\n");
+            if (print_output) printf("Reproducao...\n");
             breed(population, &size, capacity);
         }
         operations++;
@@ -53,10 +51,9 @@ int run_simulation(const char *sequence, int target_superwugs, bool print_output
         // Check for superwugs
         superwug_count = report_population(population, size);
         if (print_output) {
-            printf("After operation %d: %d superwugs\n", operations, superwug_count);
+            printf("Apos a operacao %d: %d superwugs\n", operations, superwug_count);
         }
         
-        // If we've reached the target
         if (superwug_count >= target_superwugs) {
             break;
         }
@@ -65,19 +62,18 @@ int run_simulation(const char *sequence, int target_superwugs, bool print_output
     return operations;
 }
 
-// Try different breeding/proliferation sequences to find optimal
 void find_optimal_sequence(int target_superwugs) {
-    printf("Finding optimal sequence to get %d superwugs...\n", target_superwugs);
+    printf("Encontrando a sequencia ideal para obter %d superwugs...\n", target_superwugs);
     
     // Sequences to try - combinations of breeding (B) and proliferation (P)
     const char *sequences[] = {
-        "PPPPPPPPPP",      // All proliferation
-        "BBBBBBBBBB",      // All breeding
-        "PBPBPBPBPB",      // Alternating
-        "PPBPPBPPBP",      // 2 proliferate, 1 breed
-        "BPBPBPBPBP",      // Alternating starting with breeding
-        "PPPBPPPBPP",      // 3 proliferate, 1 breed
-        "PBBBPBBBPB",      // 1 proliferate, 3 breed
+        "PPPPPPPPPP",       
+        "BBBBBBBBBB",       
+        "PBPBPBPBPB",      
+        "PPBPPBPPBP",        
+        "BPBPBPBPBP",         
+        "PPPBPPPBPP",       
+        "PBBBPBBBPB",       
         NULL
     };
     
@@ -85,7 +81,7 @@ void find_optimal_sequence(int target_superwugs) {
     const char *best_sequence = NULL;
     
     for (int i = 0; sequences[i] != NULL; i++) {
-        printf("Trying sequence: %s\n", sequences[i]);
+        printf("Tentando sequencia: %s\n", sequences[i]);
         int ops = run_simulation(sequences[i], target_superwugs, false);
         
         if (ops < best_operations && ops > 0) {
@@ -95,12 +91,12 @@ void find_optimal_sequence(int target_superwugs) {
     }
     
     if (best_sequence) {
-        printf("Optimal sequence found: %s (first %d operations)\n", 
+        printf("Sequencia otima encontrada: %s (primeiras %d operacoes)\n", 
                best_sequence, best_operations);
-        printf("Running optimal sequence with output:\n");
+        printf("Executando sequencia otima com saida:\n");
         run_simulation(best_sequence, target_superwugs, true);
     } else {
-        printf("No successful sequence found\n");
+        printf("Nenhuma sequencia bem-sucedida encontrada\n");
     }
 }
 
@@ -122,7 +118,7 @@ int main(int argc, char *argv[]) {
         // Default: find optimal sequence for one superwug
         find_optimal_sequence(1);
         
-        printf("\n\nNow trying to reach 100%% superwugs...\n");
+        printf("\n\nAgora tentando atingir 100%% superwugs...\n");
         find_optimal_sequence(64);  // Capacity is 64, so that would be 100%
     }
     

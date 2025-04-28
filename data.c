@@ -21,15 +21,15 @@ node_t* list_reverse(node_t *head) {
     node_t *next = NULL;
     
     while (current != NULL) {
-        next = current->next;  // Store next node
-        current->next = prev;  // Reverse the link
+        next = current->next;  // Store -> node
+        current->next = prev;  // Reverse 
         
         // Move one step forward
         prev = current;
         current = next;
     }
     
-    // 'prev' now points to the new head
+    // 'prev'
     return prev;
 }
 
